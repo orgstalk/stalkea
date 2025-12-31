@@ -337,8 +337,38 @@ const formatDate = (timestamp: number) => {
 }
 
 onMounted(async () => {
+    // Check if access timer has expired
+    const { isAccessExpired } = useAccessTimer()
+    
+    if (isAccessExpired()) {
+        navigateTo({
+            path: '/cta',
+            query: { 
+                username: username.value,
+                expired: 'true'
+            }
+        })
+        return
+    }
+    
     try {
         loading.value = true
+        
+        // First, try to get cached data from sessionStorage
+        const cachedData = sessionStorage.getItem('stalkeaFeedData')
+        if (cachedData) {
+            try {
+                feedData.value = JSON.parse(cachedData)
+                // Clear the cache after using it
+                sessionStorage.removeItem('stalkeaFeedData')
+                loading.value = false
+                return
+            } catch (e) {
+                console.error('Failed to parse cached data, fetching fresh:', e)
+            }
+        }
+        
+        // If no cache or parsing failed, fetch from API
         if (username.value) {
             feedData.value = await StalkeaService.getProfileFeed(username.value)
         }

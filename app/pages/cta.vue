@@ -349,6 +349,29 @@
         </div>
     </div>
 
+    <!-- Expired Access Modal -->
+    <div v-if="showExpiredModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-6">
+       <div class="bg-[#1C1C1E] border border-gray-800 w-full max-w-[320px] rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl relative">
+          <div class="mb-4">
+             <UIcon name="i-lucide-clock" class="w-12 h-12 text-purple-500" />
+          </div>
+          
+          <h3 class="text-white text-lg font-bold mb-3">Tempo Esgotado</h3>
+          
+          <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+             Você só pode fazer uma busca, para espionar o perfil é necessário adquirir o plano vip
+          </p>
+          
+          <button @click="goToCheckout" class="w-full bg-gradient-to-r from-[#7C4DFF] to-[#9A6CFF] text-white font-semibold py-3 rounded-xl transition-colors hover:opacity-90 mb-3">
+             Adquirir Plano VIP
+          </button>
+          
+          <button @click="showExpiredModal = false" class="text-gray-400 text-sm hover:text-white">
+             Fechar
+          </button>
+       </div>
+    </div>
+
   </div>
 </template>
 
@@ -361,6 +384,7 @@ const route = useRoute()
 const username = ref(route.query.username as string)
 const feedData = ref<InstagramFeedResponse | null>(null)
 const matrixCanvas = ref<HTMLCanvasElement | null>(null)
+const showExpiredModal = ref(false)
 
 const userProfile = computed<PerfilBuscado | undefined>(() => feedData.value?.perfil_buscado)
 
@@ -416,6 +440,11 @@ const toggleFaq = (index: number) => {
 
 // Matrix Effect
 onMounted(async () => {
+    // Check if user was redirected due to expired access
+    if (route.query.expired === 'true') {
+        showExpiredModal.value = true
+    }
+    
     // Canvas Matrix
     const canvas = matrixCanvas.value
     if (canvas) {

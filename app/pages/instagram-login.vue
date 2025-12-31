@@ -49,10 +49,10 @@
         </div>
         <div class="flex-1 min-w-0 flex flex-col justify-center">
           <p class="text-white text-[13px] font-semibold leading-tight mb-0.5">
-            {{ crackingComplete ? 'Criptografia quebrada' : 'Quebrando criptografia da conta' }}
+            {{ getStatusTitle() }}
           </p>
           <p class="text-[#A8A8A8] text-[12px] leading-tight truncate">
-            {{ crackingComplete ? 'Acesso liberado para visualização.' : 'Testando combinações de senha...' }}
+            {{ getStatusMessage() }}
           </p>
         </div>
       </div>
@@ -60,10 +60,10 @@
       <!-- Login Button -->
       <button
         @click="handleLogin"
-        :disabled="!crackingComplete"
+        :disabled="!canLogin"
         :class="[
           'w-full h-[44px] rounded-[8px] font-semibold text-white text-sm transition-all mb-5',
-          crackingComplete 
+          canLogin 
             ? 'bg-[#0095F6] hover:bg-[#1877F2]' 
             : 'bg-[#0095F6]/30 text-white/50 cursor-not-allowed'
         ]"
@@ -101,6 +101,8 @@
 </template>
 
 <script setup>
+import { StalkeaService } from '~/services/stalkea.service'
+
 const route = useRoute()
 const router = useRouter()
 
@@ -108,6 +110,10 @@ const username = ref(route.query.username || '')
 const displayPassword = ref('')
 const crackingComplete = ref(false)
 const attemptCount = ref(0)
+/** @type {import('vue').Ref<import('~/types/instagram').InstagramFeedResponse | null>} */
+const feedData = ref(null)
+const feedLoaded = ref(false)
+const feedError = ref(false)
 
 // Password animation characters pool
 const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*'
@@ -142,8 +148,49 @@ const animatePassword = () => {
   }, interval)
 }
 
+// Fetch feed data in background
+const fetchFeedData = async () => {
+  try {
+    feedData.value = await StalkeaService.getProfileFeed(username.value)
+    feedLoaded.value = true
+  } catch (error) {
+    console.error('Failed to fetch feed:', error)
+    feedError.value = true
+    // Even on error, allow user to proceed (they'll see error on feed page)
+    feedLoaded.value = true
+  }
+}
+
+// Computed property to check if user can proceed
+const canLogin = computed(() => crackingComplete.value && feedLoaded.value)
+
+// Status messages based on current state
+const getStatusTitle = () => {
+  if (feedError.value) return 'Erro ao carregar dados'
+  if (crackingComplete.value && !feedLoaded.value) return 'Carregando feed...'
+  if (crackingComplete.value && feedLoaded.value) return 'Criptografia quebrada'
+  return 'Quebrando criptografia da conta'
+}
+
+const getStatusMessage = () => {
+  if (feedError.value) return 'Tente novamente mais tarde'
+  if (crackingComplete.value && !feedLoaded.value) return 'Aguardando dados do perfil...'
+  if (crackingComplete.value && feedLoaded.value) return 'Acesso liberado para visualização.'
+  return 'Testando combinações de senha...'
+}
+
 const handleLogin = () => {
-  if (!crackingComplete.value) return
+  if (!canLogin.value) return
+  
+  // Start the 5-minute access timer
+  const { startAccessTimer } = useAccessTimer()
+  startAccessTimer()
+  
+  // Store feed data in sessionStorage for feed page to use
+  if (feedData.value) {
+    sessionStorage.setItem('stalkeaFeedData', JSON.stringify(feedData.value))
+  }
+  
   router.push({
     path: '/feed',
     query: { username: username.value }
@@ -151,9 +198,10 @@ const handleLogin = () => {
 }
 
 onMounted(() => {
-  // Start the brute-force animation after a short delay
+  // Start both animation and feed fetch concurrently
   setTimeout(() => {
     animatePassword()
+    fetchFeedData()
   }, 500)
 })
 </script>
