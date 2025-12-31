@@ -337,19 +337,6 @@ const formatDate = (timestamp: number) => {
 }
 
 onMounted(async () => {
-    // Check if access timer has expired
-    const { isAccessExpired } = useAccessTimer()
-    
-    if (isAccessExpired()) {
-        navigateTo({
-            path: '/cta',
-            query: { 
-                username: username.value,
-                expired: 'true'
-            }
-        })
-        return
-    }
     
     try {
         loading.value = true

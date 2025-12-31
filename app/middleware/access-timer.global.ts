@@ -29,8 +29,11 @@ export default defineNuxtRouteMiddleware((to) => {
         })
     }
 
-    // Skip timer expiration check for always accessible pages and login page
-    if (alwaysAccessible.includes(to.path) || to.path === '/instagram-login') {
+    // Skip timer expiration check for always accessible pages, login page AND search pages
+    // (Search pages have their own specific block logic above, but should be otherwise accessible)
+    if (alwaysAccessible.includes(to.path) ||
+        to.path === '/instagram-login' ||
+        searchPages.includes(to.path)) {
         return
     }
 
