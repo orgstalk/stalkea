@@ -9,6 +9,11 @@ export default defineNuxtRouteMiddleware((to) => {
         return
     }
 
+    // Disable timer verification in development
+    if (import.meta.dev) {
+        return
+    }
+
     const { isAccessExpired, hasTimerStarted } = useAccessTimer()
 
     // Pages that are always accessible (even after timer expires or search starts)

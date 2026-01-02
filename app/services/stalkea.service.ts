@@ -1,12 +1,19 @@
 import type { InstagramFeedResponse, StalkeaResponse } from '~/types/instagram'
+import { CacheService } from './cache.service'
 
 export class StalkeaService {
     // Use local API proxy
     private static readonly BASE_URL = '/api'
-    private static cache = new Map<string, StalkeaResponse['data']>()
 
     static async getProfile(username: string): Promise<StalkeaResponse> {
-        // Return cached data if available
+        // Check cache first
+        const cacheKey = `profile_${username.toLowerCase()}`
+        const cachedData = CacheService.get<StalkeaResponse>(cacheKey)
+
+        if (cachedData) {
+            console.log(`CacheService: Returning cached profile for ${username}`)
+            return cachedData
+        }
 
         try {
             const response = await fetch(`${this.BASE_URL}/instagram?username=${username}`, {
@@ -20,8 +27,12 @@ export class StalkeaService {
                 throw new Error('Failed to fetch profile')
             }
 
-            const json = await response.json() as any
+            const json = await response.json() as StalkeaResponse
+
             // Cache the successful response
+            CacheService.set(cacheKey, json)
+            console.log(`CacheService: Cached profile for ${username}`)
+
             return json
         } catch (error) {
             console.error('StalkeaService Error:', error)
@@ -29,10 +40,14 @@ export class StalkeaService {
         }
     }
     static async getProfileFeed(username: string): Promise<InstagramFeedResponse> {
-        // Return cached data if available
-        // Note: Caching strategy might need adjustment since response type changed, 
-        // but for now let's assume valid cache or just fetch fresh.
-        // Simplified: always fetch for this new endpoint as it is "feed".
+        // Check cache first
+        const cacheKey = `feed_${username.toLowerCase()}`
+        const cachedData = CacheService.get<InstagramFeedResponse>(cacheKey)
+
+        if (cachedData) {
+            console.log(`CacheService: Returning cached feed for ${username}`)
+            return cachedData
+        }
 
         try {
             const response = await fetch(`${this.BASE_URL}/instagram-feed?username=${username}`, {
@@ -47,7 +62,11 @@ export class StalkeaService {
             }
 
             const json = await response.json() as InstagramFeedResponse
-            console.log('json', json)
+
+            // Cache the successful response
+            CacheService.set(cacheKey, json)
+            console.log(`CacheService: Cached feed for ${username}`)
+
             return json
         } catch (error) {
             console.error('StalkeaService Error:', error)
