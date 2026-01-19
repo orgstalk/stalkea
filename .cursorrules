@@ -17,6 +17,7 @@ Always adhere to the theme defined in `app/assets/css/main.css`:
 - **Theme**: Pure Dark (`#0B0B0E`).
 - **Brand**: Purple Gradient (`#7C4DFF` to `#9A6CFF`).
 - **Aesthetics**: Glassmorphism, matrix-text background patterns, subtle micro-animations, and premium shadows.
+- **tech**: When use tailwind, be sure it uses the theme 
 
 ## AI Instructions for Replication
 1. **Screenshot Analysis**: When I send a screenshot, analyze:
