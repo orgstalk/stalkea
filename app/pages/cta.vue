@@ -71,7 +71,7 @@
                <!-- Blurred Items -->
                <div v-for="i in 4" :key="i" class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative border border-gray-800">
                    <!-- Fake blurred content -->
-                    <img :src="getProxyUrl(`https://picsum.photos/seed/${i+10}/200`)" class="w-full h-full object-cover opacity-20 blur-md scale-110" />
+                <img :src="getProxyUrl(fakeImages[(i-1) % fakeImages.length] || '')" class="w-full h-full object-cover opacity-60 blur-md scale-110" />
                     <div class="absolute inset-0 flex items-center justify-center">
                         <UIcon name="i-lucide-lock" class="w-6 h-6 text-white/70" />
                     </div>
@@ -126,7 +126,7 @@
 
           <div class="flex gap-3 justify-center">
               <div v-for="i in 2" :key="`story-${i}`" class="w-[140px] h-[220px] bg-zinc-900 rounded-2xl border border-gray-800 relative overflow-hidden">
-                   <img :src="getProxyUrl(`https://picsum.photos/seed/${i+55}/300/500`)" class="w-full h-full object-cover opacity-20 blur-md" />
+                   <img :src="getProxyUrl(fakeImages2[i % fakeImages2.length] || '')" class="w-full h-full object-cover opacity-20 blur-md" />
                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
                        <UIcon name="i-lucide-lock" class="w-8 h-8 text-white/80" />
                        <span class="text-[10px] text-white/80">Conteúdo restrito</span>
@@ -392,6 +392,18 @@ const modalTitle = ref('Tempo Esgotado')
 const userProfile = computed<PerfilBuscado | undefined>(() => feedData.value?.perfil_buscado)
 
 
+
+const fakeImages = [
+  '/user-midias-fake/nudes1-chat1.jpg',
+  '/user-midias-fake/nudes1-chat2.jpg',
+  '/user-midias-fake/nudes1-chat3.jpg',
+  '/user-midias-fake/pack1.1.chat2.png'
+]
+
+const fakeImages2 = [
+    '/user-midias-fake/nudes1-chat3.jpg',
+    '/user-midias-fake/nude1.jpeg',
+]
 
 const goToCheckout = () => {
     navigateTo(CHECKOUT_URL, { external: true })
