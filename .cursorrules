@@ -38,3 +38,4 @@ Always adhere to the theme defined in `app/assets/css/main.css`:
 - Do NOT add desktop styles or responsiveness.
 - Do NOT use generic browser fonts. Use Inter.
 - Do NOT change the brand colors.
+- Do not use typescript any type unless it is strictly necessary

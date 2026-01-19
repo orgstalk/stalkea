@@ -15,9 +15,8 @@ export default defineNuxtRouteMiddleware((to) => {
     }
 
     const { isAccessExpired, hasTimerStarted } = useAccessTimer()
-
     // Pages that are always accessible (even after timer expires or search starts)
-    const alwaysAccessible = ['/cta']
+    const alwaysAccessible = ['/cta', '/sigilo']
 
     // Pages that should be blocked once a search has been initiated
     const searchPages = ['/', '/analysis']

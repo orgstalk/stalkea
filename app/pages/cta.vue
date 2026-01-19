@@ -8,7 +8,7 @@
     <div class="relative z-10 flex-1 flex flex-col items-center pb-24 overflow-y-auto w-full max-w-[450px] mx-auto border-x border-gray-800/50 bg-black/50 backdrop-blur-sm" style="position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; background-color: rgba(0,0,0,0.5);">
       
       <!-- Logo Area -->
-      <div class="pt-8 pb-2 flex flex-col items-center gap-2">
+      <div class="stomp-animation stomp-delay-1 pt-8 pb-2 flex flex-col items-center gap-2">
           <div class="flex items-center gap-2">
               <UIcon name="i-lucide-search" class="w-6 h-6 text-purple-500" />
               <span class="text-xl font-bold tracking-widest text-white">STALKEA<span class="text-purple-500">.AI</span></span>
@@ -20,7 +20,7 @@
       </div>
 
       <!-- User Card -->
-      <div class="w-full px-6 mt-6">
+      <div class="w-full px-6 mt-6 stomp-animation stomp-delay-2">
         <div class="bg-[#1C1C1E] border border-gray-800 p-5 rounded-3xl flex items-center gap-4 shadow-xl">
              <div class="p-[2px] bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 rounded-full">
                  <div class="bg-black p-[2px] rounded-full">
@@ -40,7 +40,7 @@
       </div>
 
       <!-- Success Banner -->
-      <div class="w-full px-6 mt-6">
+      <div class="w-full px-6 mt-6 stomp-animation stomp-delay-3">
           <div class="bg-[#1a0b2e] border border-purple-500/30 rounded-2xl p-4 text-center shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden">
                <!-- Shine effect -->
                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full animate-shine"></div>
@@ -53,12 +53,12 @@
       </div>
 
       <!-- Arrow Down -->
-      <div class="my-8 animate-bounce">
+      <div class="my-8 animate-bounce stomp-animation stomp-delay-4">
           <UIcon name="i-lucide-arrow-down" class="w-8 h-8 text-white" />
       </div>
 
       <!-- Media Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-5">
           <div class="flex items-center gap-3 mb-4">
               <UIcon name="i-lucide-smartphone" class="w-5 h-5 text-purple-500" />
               <h2 class="font-bold text-lg">Veja Mídias de {{ userProfile?.username || 'Usuário' }}</h2>
@@ -71,7 +71,7 @@
                <!-- Blurred Items -->
                <div v-for="i in 4" :key="i" class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden relative border border-gray-800">
                    <!-- Fake blurred content -->
-                <img :src="getProxyUrl(fakeImages[(i-1) % fakeImages.length] || '')" class="w-full h-full object-cover blur-xs scale-110" />
+                <img :src="getProxyUrl(fakeImages[(i-1) % fakeImages.length] || '')" class="w-full h-full object-cover blur-md scale-110" />
                     <div class="absolute inset-0 flex items-center justify-center">
                         <UIcon name="i-lucide-lock" class="w-6 h-6 text-white/70" />
                     </div>
@@ -80,7 +80,7 @@
       </div>
 
       <!-- Location Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-6">
           <div class="flex items-center gap-3 mb-4">
               <UIcon name="i-lucide-map-pin" class="w-5 h-5 text-purple-500" />
               <h2 class="font-bold text-lg">Localização em tempo real</h2>
@@ -92,17 +92,18 @@
           <div class="bg-zinc-900 rounded-2xl overflow-hidden border border-gray-800 h-48 relative">
               <!-- Fake Map BG -->
               <div class="w-full h-full bg-[#242f3e] opacity-80 relative">
-                    <!-- Simple CSS Grid pattern for map look -->
-                    <div class="absolute inset-0" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 20px 20px; opacity: 0.3;"></div>
-                    <!-- Streets -->
-                    <div class="absolute top-1/2 left-0 w-full h-2 bg-gray-600/50 rotate-12"></div>
-                    <div class="absolute top-0 left-1/3 w-2 h-full bg-gray-600/50 -rotate-12"></div>
+                  <img :src="getProxyUrl('/location/fake-location-bg.png')" class="absolute inset-0 w-full h-full object-cover opacity-60" />
               </div>
               
               <!-- Location Card Overlay -->
               <div class="absolute bottom-4 left-4 right-4 bg-[#1C1C1E] p-3 rounded-xl border border-gray-700 flex flex-col items-center">
-                   <div class="w-12 h-12 bg-gray-700 rounded-full mb-2 flex items-center justify-center">
-                       <UIcon name="i-lucide-user" class="w-6 h-6 text-white" />
+                   <div class="w-12 h-12 bg-gray-700 rounded-full mb-2 flex items-center justify-center relative">
+                       <img 
+                            v-if="userProfile?.profile_pic_url"
+                            :src="getProxyUrl(userProfile.profile_pic_url)" 
+                            class="w-full h-full rounded-full object-cover"
+                        />
+                       <UIcon v-else name="i-lucide-user" class="w-6 h-6 text-white" />
                    </div>
                    <span class="font-bold text-sm">Localização Atual</span>
                    <span class="text-gray-400 text-xs">@{{ userProfile?.username || username }}</span>
@@ -115,7 +116,7 @@
       </div>
 
       <!-- Hidden Stories Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-7">
            <div class="flex items-center gap-3 mb-4">
               <UIcon name="i-lucide-eye" class="w-5 h-5 text-purple-500" />
               <h2 class="font-bold text-lg">Stories e posts ocultos</h2>
@@ -138,7 +139,7 @@
       </div>
 
       <!-- Direct Messages Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-8">
            <div class="flex items-center gap-3 mb-4">
               <UIcon name="i-lucide-message-circle" class="w-5 h-5 text-purple-500" />
               <h2 class="font-bold text-lg">Mensagens do Direct</h2>
@@ -188,12 +189,12 @@
       </div>
 
       <!-- Arrow Down -->
-      <div class="my-6 animate-bounce">
+      <div class="my-6 animate-bounce stomp-animation stomp-delay-9">
           <UIcon name="i-lucide-arrow-down" class="w-8 h-8 text-white" />
       </div>
 
       <!-- Pricing Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-10">
           <div class="bg-[#0f0f11] border border-gray-800/80 rounded-[32px] p-6 shadow-2xl relative overflow-hidden">
                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                
@@ -245,7 +246,7 @@
       </div>
 
       <!-- Main CTA -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-11">
           <button @click="goToCheckout" class="w-full bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] rounded-2xl p-1 shadow-[0_0_20px_rgba(139,92,246,0.5)] group transform transition hover:scale-[1.02]" style="width: 100%; cursor: pointer;">
               <div class="bg-gradient-to-br from-[#7c3aed] to-[#5b21b6] rounded-[14px] py-4 px-6 flex flex-col items-center" style="display: flex; flex-direction: column; align-items: center;">
                   <span class="text-xl font-bold text-white mb-1">Acessar tudo agora mesmo</span>
@@ -255,12 +256,12 @@
       </div>
       
       <!-- Arrow Down -->
-      <div class="mb-6 animate-bounce">
+      <div class="mb-6 animate-bounce stomp-animation stomp-delay-12">
           <UIcon name="i-lucide-arrow-down" class="w-6 h-6 text-white" />
       </div>
 
       <!-- Testimonials Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-13">
           <h3 class="text-center font-bold text-lg mb-1">Veja o que falam as pessoas</h3>
           <p class="text-center text-gray-400 text-sm mb-6">que usam o <span class="text-purple-500 font-bold">Stalkea.ai</span></p>
           
@@ -288,7 +289,7 @@
       </div>
 
       <!-- Warning Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-14">
           <div class="bg-[#2a1212]/80 border border-red-900/50 rounded-xl p-4 flex items-start gap-3">
               <UIcon name="i-lucide-triangle-alert" class="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
               <p class="text-xs text-red-200/90 leading-relaxed">
@@ -298,7 +299,7 @@
       </div>
       
       <!-- User FAQ Section -->
-      <div class="w-full px-6 mb-8">
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-15">
           <h3 class="text-center font-bold text-lg mb-6">Perguntas Frequentes</h3>
           
           <div class="flex flex-col gap-3">
@@ -336,7 +337,7 @@
     </div>
 
     <!-- Fixed Bottom Bar -->
-    <div class="fixed bottom-0 left-0 right-0 bg-[#151517]/95 backdrop-blur-md border-t border-gray-800 p-4 pb-6 z-50" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background-color: rgba(21, 21, 23, 0.95);">
+    <div class="slide-up-animation fixed bottom-0 left-0 right-0 bg-[#151517]/95 backdrop-blur-md border-t border-gray-800 p-4 pb-6 z-50" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background-color: rgba(21, 21, 23, 0.95);">
         <div class="max-w-[450px] mx-auto flex items-center justify-between gap-4">
              <div class="flex flex-col">
                  <span class="font-bold text-white text-sm">Finalize sua compra agora!</span>
@@ -486,12 +487,13 @@ onMounted(async () => {
                 
                 for(let i=0; i<drops.length; i++){
                     const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    const val = drops[i] || 0;
+                    ctx.fillText(text, i * fontSize, val * fontSize);
                     
-                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+                    if(val * fontSize > canvas.height && Math.random() > 0.975)
                         drops[i] = 0;
                     
-                    drops[i]++;
+                    drops[i] = (drops[i] || 0) + 1;
                 }
             }
             setInterval(draw, 50)
@@ -518,5 +520,42 @@ onMounted(async () => {
     0% { transform: translateX(-100%); }
     20% { transform: translateX(100%); }
     100% { transform: translateX(100%); }
+}
+
+.stomp-animation {
+  opacity: 0;
+  animation: stompIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes stompIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stomp-delay-1 { animation-delay: 100ms; }
+.stomp-delay-2 { animation-delay: 600ms; }
+.stomp-delay-3 { animation-delay: 1100ms; }
+.stomp-delay-4 { animation-delay: 1600ms; }
+.stomp-delay-5 { animation-delay: 2100ms; }
+.stomp-delay-6 { animation-delay: 2600ms; }
+.stomp-delay-7 { animation-delay: 3100ms; }
+.stomp-delay-8 { animation-delay: 3600ms; }
+.stomp-delay-9 { animation-delay: 4100ms; }
+.stomp-delay-10 { animation-delay: 4600ms; }
+.stomp-delay-11 { animation-delay: 5100ms; }
+.stomp-delay-12 { animation-delay: 5600ms; }
+.stomp-delay-13 { animation-delay: 6100ms; }
+.stomp-delay-14 { animation-delay: 6600ms; }
+.stomp-delay-15 { animation-delay: 7100ms; }
+
+.slide-up-animation {
+  animation: slideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  opacity: 0;
+  transform: translateY(100%);
+  animation-delay: 7.5s;
+}
+
+@keyframes slideUp {
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
