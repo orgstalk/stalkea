@@ -1,5 +1,5 @@
-export const CHECKOUT_URL = 'https://ambienteseguro.org.ua/c/addccda440'
-export const UPSELL_SIGILO_CHECKOUT_URL = 'https://ambienteseguro.org.ua/c/6aedaa9eca'
+export const CHECKOUT_URL = 'https://go.perfectpay.com.br/PPU38CQ6AS6'
+export const UPSELL_SIGILO_CHECKOUT_URL = 'https://go.perfectpay.com.br/PPU38CQ6AUM'
 
 export const PLANO_GOLD_URL = 'https://ambienteseguro.org.ua/c/239fc43a49'
 export const PLANO_DIAMONG_URL = 'https://ambienteseguro.org.ua/c/eaf9e8960d'
