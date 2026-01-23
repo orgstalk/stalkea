@@ -91,12 +91,12 @@
                     <!-- Price -->
                     <div class="w-full bg-[#1C1C1E] border border-gray-800 rounded-2xl p-4 text-center mb-6 relative overflow-hidden">
                         <div class="absolute top-2 right-2 bg-purple-500/10 text-purple-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-500/20">
-                             R$32 OFF
+                             R$60 OFF
                         </div>
-                        <p class="text-gray-500 text-[10px] line-through mb-1">R$ 69,90</p>
+                        <p class="text-gray-500 text-[10px] line-through mb-1">R$ 97,90</p>
                         <div class="flex items-center justify-center gap-1 text-purple-500 font-bold">
                             <span class="text-sm">R$</span>
-                            <span class="text-4xl tracking-tighter">27</span>
+                            <span class="text-4xl tracking-tighter">37</span>
                             <span class="text-sm">,00</span>
                         </div>
                         <p class="text-gray-400 text-[10px] mt-1">Pagamento único</p>

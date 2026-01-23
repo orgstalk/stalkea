@@ -91,12 +91,12 @@
 
           <div class="bg-zinc-900 rounded-2xl overflow-hidden border border-gray-800 h-48 relative">
               <!-- Fake Map BG -->
-              <div class="w-full h-full bg-[#242f3e] opacity-80 relative">
+              <div class="w-full h-full bg-[#242f3e]  relative">
                   <img :src="getProxyUrl('/location/fake-location-bg.png')" class="absolute inset-0 w-full h-full object-cover opacity-60" />
               </div>
               
               <!-- Location Card Overlay -->
-              <div class="absolute bottom-4 left-4 right-4 bg-[#1C1C1E] p-3 rounded-xl border border-gray-700 flex flex-col items-center">
+              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl flex flex-col items-center">
                    <div class="w-12 h-12 bg-gray-700 rounded-full mb-2 flex items-center justify-center relative">
                        <img 
                             v-if="userProfile?.profile_pic_url"
@@ -106,9 +106,9 @@
                        <UIcon v-else name="i-lucide-user" class="w-6 h-6 text-white" />
                    </div>
                    <span class="font-bold text-sm">Localização Atual</span>
-                   <span class="text-gray-400 text-xs">@{{ userProfile?.username || username }}</span>
+                   <span class="text-xs">@{{ userProfile?.username || username }}</span>
                    
-                   <button @click="goToCheckout" class="w-full mt-3 bg-[#2C2C2E] py-2 rounded-lg text-xs font-bold hover:bg-zinc-700 text-white border border-gray-600" style="width: 100%; cursor: pointer;">
+                   <button @click="showBlockedModal = true" class="w-full mt-3 bg-[#2C2C2E] py-2 rounded-lg text-xs font-bold hover:bg-zinc-700 text-white border border-gray-600" style="width: 100%; cursor: pointer;">
                        Ver
                    </button>
               </div>
@@ -179,7 +179,7 @@
                     </div>
 
                     <!-- CTA Button inside chat -->
-                    <button @click="goToCheckout" class="bg-gradient-to-r from-purple-600 to-indigo-600 self-end rounded-full px-6 py-3 mt-2 shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                    <button @click="showBlockedModal = true" class="bg-gradient-to-r from-purple-600 to-indigo-600 self-end rounded-full px-6 py-3 mt-2 shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
                         <span class="text-white font-bold text-sm">Boraa, vou comprar meu acesso VIP 🔥</span>
                     </button>
                     
@@ -211,11 +211,12 @@
                <!-- Price Box -->
                <div class="bg-[#161618] border border-purple-500/20 rounded-2xl p-4 text-center mb-6 relative">
                    <span class="text-gray-500 text-sm line-through block mb-1">De: R$ 279,90</span>
-                   <span class="text-4xl font-black text-purple-500">R$ 27<span class="text-2xl">,00</span></span>
+                   <span class="text-4xl font-black text-purple-500">R$ 37<span class="text-2xl">,00</span></span>
                    
                    <div class="flex justify-center gap-4 mt-3 text-[10px] text-gray-400">
                        <span class="flex items-center gap-1"><UIcon name="i-lucide-zap" class="w-3 h-3 text-purple-400" /> Acesso imediato</span>
                        <span class="flex items-center gap-1"><UIcon name="i-lucide-lock" class="w-3 h-3 text-purple-400" /> Pagamento seguro</span>
+                       <span class="flex items-center gap-1"><UIcon name="i-lucide-badge-dollar-sign" class="w-3 h-3 text-purple-400" /> Pagamento único</span>
                    </div>
                </div>
 
@@ -249,7 +250,7 @@
       <div class="w-full px-6 mb-8 stomp-animation stomp-delay-11">
           <button @click="goToCheckout" class="w-full bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] rounded-2xl p-1 shadow-[0_0_20px_rgba(139,92,246,0.5)] group transform transition hover:scale-[1.02]" style="width: 100%; cursor: pointer;">
               <div class="bg-gradient-to-br from-[#7c3aed] to-[#5b21b6] rounded-[14px] py-4 px-6 flex flex-col items-center" style="display: flex; flex-direction: column; align-items: center;">
-                  <span class="text-xl font-bold text-white mb-1">Acessar tudo agora mesmo</span>
+                  <span class="text-md font-bold text-white mb-1">Acessar tudo agora mesmo por R$37</span>
                   <span class="text-xs text-purple-200">Acesso liberado em até 2 minutos</span>
               </div>
           </button>
@@ -265,27 +266,34 @@
           <h3 class="text-center font-bold text-lg mb-1">Veja o que falam as pessoas</h3>
           <p class="text-center text-gray-400 text-sm mb-6">que usam o <span class="text-purple-500 font-bold">Stalkea.ai</span></p>
           
-          <div class="bg-[#0f0f11] border border-gray-800 rounded-2xl p-5 relative">
-               <div class="flex items-center gap-3 mb-3">
-                   <div class="w-10 h-10 rounded-full bg-gray-700 p-[2px] bg-gradient-to-tr from-pink-500 to-purple-500">
-                       <img :src="getProxyUrl('https://i.pravatar.cc/150?u=marcos')" class="w-full h-full rounded-full border border-black" />
+           <div class="rounded-2xl overflow-hidden border border-gray-800 shadow-2xl relative w-full">
+              <div style="position: relative; padding-top: 177.77777777777777%;">
+                <iframe
+                  src="https://customer-lhhr9rgkp55gfdxp.cloudflarestream.com/e6a4eb2125acbb55aeef5011ce65a61a/iframe?poster=https%3A%2F%2Fcustomer-lhhr9rgkp55gfdxp.cloudflarestream.com%2Fe6a4eb2125acbb55aeef5011ce65a61a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
+                  loading="lazy"
+                  style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                  allowfullscreen="true"
+                ></iframe>
+              </div>
+           </div>
+
+           <!-- Screenshot Carousel -->
+           <div class="mt-8">
+               <h4 class="text-center font-bold text-md text-white mb-4">Outros depoimentos</h4>
+               <UCarousel 
+                    v-slot="{ item }" 
+                    :items="testimonialImages" 
+                    :ui="{ item: 'basis-full' }"
+                    class="w-full mx-auto"
+                    arrows
+                    indicators
+               >
+                   <div class="p-1">
+                        <img :src="getProxyUrl(item)" class="w-full rounded-xl border border-gray-800 object-cover" draggable="false" />
                    </div>
-                   <div class="flex flex-col">
-                       <span class="font-bold text-sm text-white">Marcosvianad</span>
-                       <span class="text-xs text-gray-500">3h</span>
-                   </div>
-               </div>
-               <p class="text-gray-300 text-xs leading-relaxed">
-                   Achei q era golpe mas testei msm assim. Paguei, em 3 min recebi o acesso. Tava tudo lá: directs, fotos q ele apagava, até a localização funcionou. Valeu cada centavo.
-               </p>
-               
-               <!-- Dots -->
-               <div class="flex justify-center gap-2 mt-4">
-                   <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-                   <div class="w-6 h-2 rounded-full bg-purple-600"></div>
-                   <div class="w-2 h-2 rounded-full bg-gray-600"></div>
-               </div>
-          </div>
+               </UCarousel>
+           </div>
       </div>
 
       <!-- Warning Section -->
@@ -328,6 +336,21 @@
                       {{ item.answer }}
                   </div>
               </div>
+          </div>
+      </div>
+      
+
+
+      <!-- Guarantee Banner -->
+      <div class="w-full px-6 mb-8 stomp-animation stomp-delay-16">
+          <div class="bg-[#040f08] border border-green-500/30 rounded-2xl p-6 text-center shadow-[0_0_20px_rgba(34,197,94,0.1)]">
+               <div class="flex items-center justify-center gap-2 mb-3">
+                   <UIcon name="i-lucide-shield-check" class="w-6 h-6 text-green-500" />
+                   <span class="text-green-500 font-bold text-lg">Garantia de 30 Dias</span>
+               </div>
+               <p class="text-gray-400 text-sm leading-relaxed px-2">
+                   Teste sem risco! Se não gostar ou por algum motivo não se adaptar, devolvemos 100% do seu dinheiro.
+               </p>
           </div>
       </div>
       
@@ -376,6 +399,32 @@
     </div>
 
   </div>
+
+    <!-- Blocked Action Modal -->
+    <div v-if="showBlockedModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-6">
+       <div class="bg-[#1C1C1E] border border-gray-800 w-full max-w-[320px] rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl relative">
+          <!-- Close click outside is standard, but maybe forced interaction? using button to close/navigate -->
+          
+          <div class="mb-4">
+             <UIcon name="i-lucide-triangle-alert" class="w-8 h-8 text-white" />
+          </div>
+          
+          <h3 class="text-white text-lg font-bold mb-2">Ação bloqueada</h3>
+          
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+             Seja um membro VIP do Stalkea.ai para ter acesso aos stories
+          </p>
+          
+          <button @click="goToCheckout" class="w-full bg-[#8A7178] hover:bg-[#9d828a] text-white font-semibold py-3 rounded-xl transition-colors">
+             Adquirir Acesso VIP
+          </button>
+          
+          <!-- Optional close button or click outside logic could go here, but for now strict modal -->
+          <button @click="showBlockedModal = false" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+             <UIcon name="i-lucide-x" class="w-5 h-5" />
+          </button>
+       </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -404,6 +453,11 @@ const fakeImages = [
 const fakeImages2 = [
     '/user-midias-fake/nudes1-chat3.jpg',
     '/user-midias-fake/nude1.jpeg',
+]
+
+const testimonialImages = [
+    '/depoimentos/ana-clara.jpeg',
+    '/depoimentos/gabriely-amarantes.jpeg'
 ]
 
 const goToCheckout = () => {
@@ -443,6 +497,8 @@ const faqItems = ref([
         open: false
     }
 ])
+
+const showBlockedModal = ref(false)
 
 const toggleFaq = (index: number) => {
     const item = faqItems.value[index]
@@ -547,6 +603,7 @@ onMounted(async () => {
 .stomp-delay-13 { animation-delay: 6100ms; }
 .stomp-delay-14 { animation-delay: 6600ms; }
 .stomp-delay-15 { animation-delay: 7100ms; }
+.stomp-delay-16 { animation-delay: 7600ms; }
 
 .slide-up-animation {
   animation: slideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;

@@ -2,6 +2,8 @@
 const colorMode = useColorMode()
 colorMode.preference = 'dark'
 
+console.log('APP VERSION', APP_VERSION)
+
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' }
