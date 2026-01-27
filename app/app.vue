@@ -49,6 +49,15 @@ onMounted(() => {
     window.ttq('page')
   }
 })
+
+  watch(
+  () => router.currentRoute.value.fullPath,
+  () => {
+    if (window.ttq) {
+      window.ttq.page()
+    }
+  }
+)
 </script>
 
 <template>
