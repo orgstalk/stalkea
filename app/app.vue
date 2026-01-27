@@ -44,12 +44,10 @@ useSeoMeta({
 })
 
 onMounted(() => {
-  if (!window.ttq) {
-    window.ttq = []
+  if (typeof window.ttq === 'function') {
+    window.ttq('load', 'D5RTRI3C77UECCBSD1F0')
+    window.ttq('page')
   }
-
-  window.ttq.push(['init', 'D5RTRI3C77UECCBSD1F0'])
-  window.ttq.push(['page'])
 })
 </script>
 
